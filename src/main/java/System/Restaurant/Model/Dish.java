@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -21,6 +22,7 @@ public class Dish {
     private boolean vegetarian;
     private int calories;
     private Type type;
+    private LocalDate created;
 
 public enum Type{MEAT,VEGETABLES,FRUITS,SEA_FOOD}
 }
