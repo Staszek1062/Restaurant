@@ -10,7 +10,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class RestaurantService {
-    private DishRepository dishRepository;
+
+    private final DishRepository dishRepository;
     public List<Dish> getDishes() { return dishRepository.findAll();}
     public Dish getDish(Long id) { return dishRepository.findById(id).orElseThrow();}
     public Dish createDish(Dish dish) {return dishRepository.save(dish);}
