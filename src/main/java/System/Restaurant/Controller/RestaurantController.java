@@ -3,15 +3,17 @@ package System.Restaurant.Controller;
 import System.Restaurant.Model.Dish;
 import System.Restaurant.Model.DishDto;
 import System.Restaurant.Services.RestaurantService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class RestaurantController {
     public static final Long EMPTY_ID = null;
-    RestaurantService restaurantService;
+    private final RestaurantService restaurantService;
     @GetMapping("/dishes")
     public List<Dish> getDishes(){
         return restaurantService.getDishes();
@@ -27,7 +29,6 @@ public class RestaurantController {
                 dishDto.getName(),
                 dishDto.isVegetarian(),
                 dishDto.getCalories(),
-                dishDto.getType(),
                 dishDto.getCreated()
                 )
         );
@@ -39,7 +40,6 @@ public class RestaurantController {
                 dishDto.getName(),
                 dishDto.isVegetarian(),
                 dishDto.getCalories(),
-                dishDto.getType(),
                 dishDto.getCreated()
                 )
         );

@@ -21,8 +21,6 @@ public class Dish {
     private String name;
     private boolean vegetarian;
     private int calories;
-    private Type type;
     private LocalDate created;
 
-public enum Type{MEAT,VEGETABLES,FRUITS,SEA_FOOD}
 }
