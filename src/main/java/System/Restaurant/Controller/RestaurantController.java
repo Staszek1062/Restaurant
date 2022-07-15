@@ -4,10 +4,15 @@ import System.Restaurant.Model.Dish;
 import System.Restaurant.Model.DishDto;
 import System.Restaurant.Services.RestaurantService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,12 +20,25 @@ public class RestaurantController {
     public static final Long EMPTY_ID = null;
     private final RestaurantService restaurantService;
     @GetMapping("/dishes")
-    public List<Dish> getDishes(){
-        return restaurantService.getDishes();
+    public CollectionModel<EntityModel<Dish>> getDishes(){
+
+        List<EntityModel<Dish>> dishes=restaurantService.getDishes().stream()
+                .map(dish -> EntityModel.of(dish,
+                        linkTo(methodOn(RestaurantController.class).getDish(dish.getId())).withSelfRel(),
+                        linkTo(methodOn(RestaurantController.class).getDishes()).withRel("dishes")
+                        )).toList();
+        return CollectionModel.of(dishes,
+                linkTo(methodOn(RestaurantController.class).getDishes()).withSelfRel()
+        );
     }
     @GetMapping("/dishes/{id}")
-    public  Dish getDish(@PathVariable Long id){
-        return restaurantService.getDish(id);
+    public EntityModel<Dish> getDish(@PathVariable Long id){
+        return EntityModel.of(restaurantService.getDish(id),
+                linkTo(methodOn(RestaurantController.class).getDish(id)).withSelfRel(),
+                linkTo(methodOn(RestaurantController.class).getDishes()).withRel("dishes"),
+                linkTo(RestaurantController.class).slash("employees").slash(id).slash("deactivate")
+                        .withRel("deactivate")
+        );
     }
     @PostMapping("/dishes")
     public Dish createDishes(@RequestBody DishDto dishDto){
@@ -29,7 +47,7 @@ public class RestaurantController {
                 dishDto.getName(),
                 dishDto.isVegetarian(),
                 dishDto.getCalories(),
-                dishDto.getCreated()
+                dishDto.getType()
                 )
         );
     }
@@ -40,7 +58,7 @@ public class RestaurantController {
                 dishDto.getName(),
                 dishDto.isVegetarian(),
                 dishDto.getCalories(),
-                dishDto.getCreated()
+                dishDto.getType()
                 )
         );
         return ResponseEntity.noContent().build();

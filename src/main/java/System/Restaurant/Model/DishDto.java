@@ -9,5 +9,7 @@ public class DishDto {
     private String name;
     private boolean vegetarian;
     private int calories;
-    private LocalDate created;
+    private Dish.Type type;
+
+
 }

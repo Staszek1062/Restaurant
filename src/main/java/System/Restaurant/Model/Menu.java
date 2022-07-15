@@ -1,8 +1,28 @@
 package System.Restaurant.Model;
 
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Menu {
-  //later Maping dishes to prices in todays menu
+  Map<Dish,Integer> todayPrices;
+
+  public Menu(){ todayPrices = new HashMap<>();}
+  public void publishMenu(Map<Dish,Integer> menu){
+    todayPrices.clear();
+    todayPrices.putAll(menu);
+  }
+
+  public Integer getPrice(Dish dish){
+    Integer found = null;
+    for(Dish e:todayPrices.keySet()){
+      if(e.getName().equals(dish.getName())){
+        found = todayPrices.get(e);
+        break;
+      }
+    }
+    return found;
+  }
+
+
 }
