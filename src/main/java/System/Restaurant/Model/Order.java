@@ -1,10 +1,31 @@
 package System.Restaurant.Model;
 
-import java.time.LocalDate;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import javax.validation.constraints.Size;
+
+import java.util.Date;
+import java.util.List;
+@Entity
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order {
-    private List<Dish> order;
-    private LocalDate created;
-    private int orderPrice;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @ManyToMany(targetEntity=Dish.class)
+    @Size(min=1, message="You must choose at least 1 dish")
+    private List<Dish> dishes;
+    private Date created;
+
+    private int price;
+    @PrePersist
+    void createdAt(){
+        this.created= new Date();
+    }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RestaurantService {
+public class DishService {
 
     private final DishRepository dishRepository;
     public List<Dish> getDishes() { return dishRepository.findAll();}
