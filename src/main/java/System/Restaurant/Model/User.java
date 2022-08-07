@@ -1,9 +1,6 @@
 package System.Restaurant.Model;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 
@@ -20,33 +17,36 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @Entity
-@Data
-@RequiredArgsConstructor
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User  {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    private final String username;
+    private String username;
     @NotNull
-    private final String password;
+    private String password;
     @Email
-    private final String email;
+    private String email;
 
-    private final String fullname;
+    private String fullname;
     @NotNull
-    private final String street;
+    private String street;
     @NotNull
-    private final String city;
+    private String city;
     @NotNull
-    private final String state;
+    private String state;
     @Pattern(regexp = "^[0-9]{5}(?:-[0-9]{4})?$",message = "invalid zip code")
-    private final String zip;
+    private String zip;
     @Digits(integer = 12,fraction = 0,message = "invalid number")
-    private final String phoneNumber;
+    private String phoneNumber;
+    @CreatedDate
     private Instant created;
+    
 
 }

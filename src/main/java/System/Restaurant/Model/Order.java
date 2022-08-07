@@ -3,6 +3,7 @@ package System.Restaurant.Model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -21,11 +22,9 @@ public class Order {
     @ManyToMany(targetEntity=Dish.class)
     @Size(min=1, message="You must choose at least 1 dish")
     private List<Dish> dishes;
+    @CreatedDate
     private Date created;
 
     private int price;
-    @PrePersist
-    void createdAt(){
-        this.created= new Date();
-    }
+
 }

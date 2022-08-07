@@ -15,11 +15,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@RequestMapping("/dishes")
 @RequiredArgsConstructor
 public class DishController {
     public static final Long EMPTY_ID = null;
     private final DishService dishService;
-    @GetMapping("/dishes")
+
+    @GetMapping
     public CollectionModel<EntityModel<Dish>> getDishes(){
 
         List<EntityModel<Dish>> dishes= dishService.getDishes().stream()
@@ -31,7 +33,7 @@ public class DishController {
                 linkTo(methodOn(DishController.class).getDishes()).withSelfRel()
         );
     }
-    @GetMapping("/dishes/{id}")
+    @GetMapping("/{id}")
     public EntityModel<Dish> getDish(@PathVariable Long id){
         return EntityModel.of(dishService.getDish(id),
                 linkTo(methodOn(DishController.class).getDish(id)).withSelfRel(),
@@ -41,7 +43,7 @@ public class DishController {
         );
     }
 
-    @PostMapping("/dishes")
+    @PostMapping
     public Dish createDishes(@RequestBody DishDto dishDto){
         return dishService.createDish(new Dish(
                 EMPTY_ID,
@@ -52,7 +54,7 @@ public class DishController {
                 )
         );
     }
-    @PutMapping("/dishes/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Object> updateDish(@PathVariable Long id,@RequestBody DishDto dishDto){
         dishService.updateDish(new Dish(
                 id,
@@ -64,7 +66,7 @@ public class DishController {
         );
         return ResponseEntity.noContent().build();
     }
-    @DeleteMapping("/dishes/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteDish(@PathVariable Long id){
         dishService.deleteDish(id);
         return ResponseEntity.noContent().build();
